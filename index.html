@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食品安全检测技术</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .hero-section {
+            background-color: #f8f9fa;
+            padding: 60px 0;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            position: relative;
+            height: 400px;
+            width: 100%;
+            margin: 30px 0;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        .loading-spinner {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        .news-card {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">食品安全检测技术</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">首页</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">最新成果</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">检测技术</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">应用案例</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">资源下载</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主体内容 -->
+    <div class="container">
+        <!-- 网站标题和简介 -->
+        <div class="hero-section text-center">
+            <h1 class="display-4">食品安全检测技术</h1>
+            <p class="lead">致力于提供最新、最全面的食品安全检测技术信息，推动食品安全领域的创新与发展</p>
+        </div>
+
+        <!-- 数据图表 -->
+        <div class="row">
+            <div class="col-12">
+                <h2 class="text-center mb-4">食品安全检测技术应用频率增长趋势 (2019-2023)</h2>
+                <div class="loading-spinner" id="chartLoading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                    </div>
+                    <p>正在加载数据...</p>
+                </div>
+                <div class="chart-container">
+                    <canvas id="techUsageChart"></canvas>
+                </div>
+                <div class="text-center mt-2">
+                    <p class="text-muted small">数据来源：国家市场监督管理总局食品抽检司</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 最新动态 -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h2 class="mb-4">最新动态</h2>
+                <div class="loading-spinner" id="newsLoading">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">加载中...</span>
+                    </div>
+                    <p>正在加载数据...</p>
+                </div>
+                <div id="newsContainer">
+                    <!-- 动态内容将通过JavaScript加载 -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部 -->
+    <footer class="mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h5>小组成员</h5>
+                    <p>陈思熠 | 陈宝怡 | 陈梓澄 | 黄奕 | 殷珑 | 邓秋怡</p>
+                    <p class="mt-3">&copy; 2025 深圳职业技术大学信息素养课程项目</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- 数据库操作和图表渲染脚本 -->
+    <script>
+        // 数据库操作类
+        class FoodSafetyDB {
+            constructor() {
+                this.chartDataKey = 'foodSafetyChartData';
+                this.newsDataKey = 'foodSafetyNewsData';
+                this.initDB();
+            }
+
+            // 初始化数据库
+            initDB() {
+                if (!localStorage.getItem(this.chartDataKey)) {
+                    this.saveChartData(this.getDefaultChartData());
+                }
+                if (!localStorage.getItem(this.newsDataKey)) {
+                    this.saveNewsData(this.getDefaultNewsData());
+                }
+            }
+
+            // 获取默认图表数据
+            getDefaultChartData() {
+                return {
+                    labels: ['2019', '2020', '2021', '2022', '2023'],
+                    datasets: [
+                        {
+                            label: '光谱技术',
+                            data: [65, 72, 78, 85, 92],
+                            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '生物传感器',
+                            data: [45, 55, 68, 78, 88],
+                            backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '纳米技术',
+                            data: [30, 42, 55, 70, 85],
+                            backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                            borderColor: 'rgba(255, 206, 86, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '实验室快速检测技术',
+                            data: [50, 60, 75, 82, 95],
+                            backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                };
+            }
+
+            // 获取默认新闻数据
+            getDefaultNewsData() {
+                return [
+                    {
+                        title: '国家市场监督管理总局食品抽检司发布2024年食品安全抽检计划',
+                        content: '国家市场监督管理总局食品抽检司近日发布《2024年食品安全抽检计划》，明确提出将加大对新型检测技术的应用力度，包括现场快速检测技术、无损检测技术和智能化检测设备的应用。计划要求各地市场监管部门在2024年食品安全抽检工作中，提高现场快速检测技术的采用比例至30%以上，并推动建立食品安全检测数据共享平台，实现检测结果的实时上传和分析。',
+                        date: '2024年1月15日',
+                        source: '国家市场监督管理总局食品抽检司'
+                    },
+                    {
+                        title: '中国食品药品检定研究院研发成功新型食品安全实验室快速检测技术',
+                        content: '中国食品药品检定研究院联合清华大学成功研发出基于表面增强拉曼光谱(SERS)的食品安全实验室快速检测技术，该技术可在5分钟内完成对食品中多种非法添加物和农药残留的检测，检测限达到ppb级别。该技术已通过国家验证，并将在全国范围内推广应用，预计将大幅提升我国食品安全实验室快速检测能力，为食品安全监管提供强有力的技术支撑。',
+                        date: '2024年2月20日',
+                        source: '中国食品药品检定研究院'
+                    }
+                ];
+            }
+
+            // 保存图表数据
+            saveChartData(data) {
+                localStorage.setItem(this.chartDataKey, JSON.stringify(data));
+            }
+
+            // 获取图表数据
+            getChartData() {
+                return JSON.parse(localStorage.getItem(this.chartDataKey));
+            }
+
+            // 保存新闻数据
+            saveNewsData(data) {
+                localStorage.setItem(this.newsDataKey, JSON.stringify(data));
+            }
+
+            // 获取新闻数据
+            getNewsData() {
+                return JSON.parse(localStorage.getItem(this.newsDataKey));
+            }
+
+            // 添加新闻
+            addNews(newsItem) {
+                const newsData = this.getNewsData();
+                newsData.unshift(newsItem);
+                this.saveNewsData(newsData);
+                return newsData;
+            }
+
+            // 更新图表数据
+            updateChartData(datasetIndex, newData) {
+                const chartData = this.getChartData();
+                if (datasetIndex >= 0 && datasetIndex < chartData.datasets.length) {
+                    chartData.datasets[datasetIndex].data = newData;
+                    this.saveChartData(chartData);
+                    return chartData;
+                }
+                return null;
+            }
+        }
+
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', function() {
+            // 初始化数据库
+            const db = new FoodSafetyDB();
+            
+            // 显示图表加载状态
+            document.getElementById('chartLoading').style.display = 'block';
+            
+            // 延迟加载图表数据，模拟从数据库加载
+            setTimeout(() => {
+                // 获取图表数据
+                const chartData = db.getChartData();
+                
+                // 创建图表
+                const ctx = document.getElementById('techUsageChart').getContext('2d');
+                const techUsageChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: chartData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: '应用频率 (%)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: '年份'
+                                }
+                            }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: '食品安全检测技术应用频率增长趋势'
+                            },
+                            legend: {
+                                position: 'top',
+                            }
+                        }
+                    }
+                });
+                
+                // 隐藏图表加载状态
+                document.getElementById('chartLoading').style.display = 'none';
+            }, 800);
+            
+            // 显示新闻加载状态
+            document.getElementById('newsLoading').style.display = 'block';
+            
+            // 延迟加载新闻数据，模拟从数据库加载
+            setTimeout(() => {
+                // 获取新闻数据
+                const newsData = db.getNewsData();
+                const newsContainer = document.getElementById('newsContainer');
+                
+                // 清空容器
+                newsContainer.innerHTML = '';
+                
+                // 添加新闻卡片
+                newsData.forEach(news => {
+                    const newsCard = document.createElement('div');
+                    newsCard.className = 'card news-card';
+                    newsCard.innerHTML = `
+                        <div class="card-body">
+                            <h5 class="card-title">${news.title}</h5>
+                            <p class="card-text">${news.content}</p>
+                            <p class="card-text"><small class="text-muted">发布于 ${news.date} | 信息来源：${news.source}</small></p>
+                        </div>
+                    `;
+                    newsContainer.appendChild(newsCard);
+                });
+                
+                // 隐藏新闻加载状态
+                document.getElementById('newsLoading').style.display = 'none';
+            }, 1000);
+            
+            // 添加自动保存功能示例（在实际应用中，可以在数据修改时调用）
+            // 例如：当用户通过表单修改数据时，调用db.saveChartData()或db.saveNewsData()
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>食品安全 - 最新研究成果</title>
+    <style>
+        :root {
+            --primary-color: #2c7a7b;
+            --secondary-color: #4fd1c5;
+            --neutral-color: #f7fafc;
+            --text-color: #2d3748;
+            --light-gray: #edf2f7;
+            --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --hover-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --border-radius: 10px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+            color: var(--text-color);
+            background-color: var(--neutral-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* 导航栏样式 */
+        header {
+            background-color: white;
+            box-shadow: var(--card-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active {
+            color: var(--primary-color);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary-color);
+        }
+
+        /* 主要内容区域 */
+        main {
+            padding: 40px 0;
+        }
+
+        .page-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .page-title h1 {
+            font-size: 36px;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            font-size: 18px;
+            color: #718096;
+        }
+
+        /* 论文区域样式 */
+        .papers-section {
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            color: var(--primary-color);
+            margin-bottom: 24px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary-color);
+        }
+
+        .chinese-papers {
+            background-color: #f0fff4;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            margin-bottom: 40px;
+        }
+
+        .english-papers {
+            background-color: #ebf8ff;
+            padding: 30px;
+            border-radius: var(--border-radius);
+        }
+
+        /* 卡片布局 */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .paper-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--card-shadow);
+            padding: 24px;
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .paper-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--hover-shadow);
+        }
+
+        .paper-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--primary-color);
+        }
+
+        .paper-author {
+            font-size: 14px;
+            color: #718096;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .paper-abstract {
+            font-size: 16px;
+            margin-bottom: 20px;
+            flex-grow: 1;
+        }
+
+        .paper-link {
+            display: inline-block;
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .paper-link:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .page-title h1 {
+                font-size: 28px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chinese-papers, .english-papers {
+                padding: 20px;
+            }
+        }
+
+        /* 页脚样式 */
+        footer {
+            background-color: var(--text-color);
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin-top: 60px;
+        }
+
+        footer p {
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">食品安全研究中心</div>
+                <ul class="nav-links">
+                    <li><a href="#">首页</a></li>
+                    <li><a href="#" class="active">最新成果</a></li>
+                    <li><a href="#">研究报告</a></li>
+                    <li><a href="#">联系我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <div class="page-title">
+                <h1>最新研究成果</h1>
+                <p>探索食品安全领域的最新学术进展</p>
+            </div>
+
+            <div class="papers-section">
+                <div class="chinese-papers">
+                    <h2 class="section-title">中文论文</h2>
+                    <div class="cards-grid">
+                        <div class="paper-card">
+                            <h3 class="paper-title">中国食品科学技术学会年报（2024年）</h3>
+                            <p class="paper-abstract">该年报展示了中国食品科学技术学会2024年的各项工作成果，包括参与国家食品相关政策制定、开展多项政府研究项目（如食品添加剂审批与标准体系水平评价、益生菌类产品监管分析等）。该报告反映了中国食品安全标准制定和监管的最新进展，体现了学术界对国家食品政策的支撑作用。</p>
+                            <a href="https://www.cifst.org.cn/a/news/zlxz/20250828/3385.html" class="paper-link" target="_blank">查看原文 →</a>
+                        </div>
+                        <div class="paper-card">
+                            <h3 class="paper-title">食品安全 食品微生物安全检测技术的多元化发展趋势</h3>
+                            <p class="paper-author">作者：王春燕</p>
+                            <p class="paper-abstract">本研究探讨了食品微生物安全检测技术的发展趋势，重点介绍多元化的检测方法技术进步。文章分析了传统检测方法的局限性，并探讨了现代微生物安全检测技术在保障食品安全中的应用前景。</p>
+                            <a href="https://www.researchgate.net/publication/382713053_shipinweishengwuanquanjiancejishudeduoyuanhuafazhanqushi" class="paper-link" target="_blank">查看原文 →</a>
+                        </div>
+                        <div class="paper-card">
+                            <h3 class="paper-title">生物基冷冻保护剂的机理与可持续全食品体系应用</h3>
+                            <p class="paper-abstract">该文章聚焦食品保鲜技术，指出传统冷冻保护剂（如甘油和二甲基亚砜）的生物毒性限制了食品安全性。文章探讨了生物基冷冻保护剂在提升食品安全与可持续性方面的应用前景，对食品保鲜领域有重要参考价值。</p>
+                            <a href="https://www2.scut.edu.cn/acfe/2025/0709/c7568a596991/page.htm" class="paper-link" target="_blank">查看原文 →</a>
+                        </div>
+                        <div class="paper-card">
+                            <h3 class="paper-title">预制菜风险监测分析与监管策略研究</h3>
+                            <p class="paper-abstract">该研究基于多部门联合监管政策导向，对预制菜开展专项风险监测分析，识别预制菜中的多品类、多指标风险因素。研究深入探讨了预制菜行业风险点与相应的监管策略，为保障新兴食品形式的安全性提供科学依据。</p>
+                            <a href="https://www.hanspub.org/journal/paperinformation?paperID=119067" class="paper-link" target="_blank">查看原文 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="english-papers">
+                    <h2 class="section-title">英文论文</h2>
+                    <div class="cards-grid">
+                        <div class="paper-card">
+                            <h3 class="paper-title">Advances and Future Challenges in Microbial Food Safety</h3>
+                            <p class="paper-author">作者：JITENDRA V. VERGIS, RAJESH V. VERGIS</p>
+                            <p class="paper-abstract">This paper discusses the latest progress and future challenges in microbial food safety, covering innovative treatments and natural strategies for microbial inactivation and control. It highlights the importance of advanced detection technologies and risk assessment methodologies in ensuring food safety globally.</p>
+                            <a href="https://www.mdpi.com/2304-8158/14/13/2231" class="paper-link" target="_blank">View Original →</a>
+                        </div>
+                        <div class="paper-card">
+                            <h3 class="paper-title">Ensuring food safety: microbiological risk assessment</h3>
+                            <p class="paper-author">作者：JITENDRA V. VERGIS</p>
+                            <p class="paper-abstract">A key tool for managing microbial risks is microbial risk assessment (MRA), which involves hazard identification, hazard characterization, exposure assessment, and risk estimation. This article discusses how MRA is applied in food safety management to protect public health.</p>
+                            <a href="https://www.sciencedirect.com/science/article/abs/pii/S2214799325000025" class="paper-link" target="_blank">View Original →</a>
+                        </div>
+                        <div class="paper-card">
+                            <h3 class="paper-title">Advancing microbial risk assessment: perspectives from China</h3>
+                            <p class="paper-author">作者：LIANG Xiao, YUAN Lijun, WANG Hui, ZHANG Yanchao, DENG Fuquian, HUANG Qin</p>
+                            <p class="paper-abstract">This paper reviews the current status and future directions of microbial risk assessment in China, emphasizing the importance of emerging detection technologies in improving food safety monitoring capabilities and enhancing risk assessment accuracy.</p>
+                            <a href="https://www.nature.com/articles/s41538-025-00527-3" class="paper-link" target="_blank">View Original →</a>
+                        </div>
+                        <div class="paper-card">
+                            <h3 class="paper-title">Analysis of food safety based on machine learning</h3>
+                            <p class="paper-author">作者：JIANG Tao, ZENG Fanming, HUANG Buyun</p>
+                            <p class="paper-abstract">Food safety incidents pose serious threats to public health and social stability. This study explores how machine learning techniques can be applied to predict and analyze food safety hazards, providing new approaches for early warning and prevention of food safety issues.</p>
+                            <a href="https://www.sciencedirect.com/science/article/abs/pii/S0308814625024215" class="paper-link" target="_blank">View Original →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>作者: AutoGLM (网页内容由AI生成) Copyright © 2025 AutoGLM. 保留所有权利。</p>
+        </div>
+    </footer>
+</body>
+</html>
